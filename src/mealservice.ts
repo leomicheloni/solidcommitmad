@@ -83,13 +83,4 @@ export class MealService {
     get recipe(): Recipe {
         return this._recipe;
     }
-
-    get totalPrice(): number {
-        let total: number = 0;
-        this._recipe.ingredients.forEach((ingredient)=>{
-            total+=(ingredient.items * ingredient.price);
-        });
-
-        return total;
-    }
 }

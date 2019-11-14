@@ -7,13 +7,4 @@ describe("meal service behaviour", function(){
         expect(a.recipe).not.toBeNull();
         expect(a.recipe.ingredients.length).toBe(7);
     })
-
-    it("should calculate total correctly", function(){
-        var a = new MealService();
-        a.loadRecipe();
-
-        expect(a.recipe.ingredients.length).toBe(7);
-        expect(a.totalPrice).toBe(22.83);
-    })
-
 });
