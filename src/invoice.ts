@@ -1,7 +1,7 @@
 import { Recipe } from "./recipe";
 
 export class Invoice {
-    _recipe = new Recipe();
+    private _recipe = new Recipe();
 
     set recipe(recipe : Recipe){
         this._recipe = recipe;
