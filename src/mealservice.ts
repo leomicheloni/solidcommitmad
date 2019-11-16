@@ -7,20 +7,19 @@ export class MealService {
   private _recipe: Recipe;
   private _dataRetriever: RecipeDataRetriever;
 
-  constructor() {
-    this._dataRetriever = new StaticRecipeDataRetriever();
+  constructor(recipeDataRetriever : RecipeDataRetriever) {
+    this._dataRetriever = recipeDataRetriever || new StaticRecipeDataRetriever();
   }
 
   loadRecipe(): void {
-    const temp = this._dataRetriever.retrieve().recipe;
-    // const temp = data.recipe;
+    const recipeData = this._dataRetriever.retrieve().recipe;
 
     this._recipe = new Recipe();
-    this._recipe.currency = temp.currency;
-    this._recipe.name = temp.name;
+    this._recipe.currency = recipeData.currency;
+    this._recipe.name = recipeData.name;
     this._recipe.ingredients = new Array<Ingredient>();
 
-    temp.ingredients.forEach(function (i) {
+    recipeData.ingredients.forEach(function (i) {
       var ingredient = new Ingredient();
       ingredient.brand = i.brand;
       ingredient.items = i.items;
