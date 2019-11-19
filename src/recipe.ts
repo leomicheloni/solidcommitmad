@@ -37,7 +37,7 @@ export class Recipe {
         if (this._ingredients === undefined) return 0;
         let total: number = 0;
         this._ingredients.forEach((ingredient) => {
-            total += (ingredient.items * ingredient.price);
+            total += ingredient.total();// (ingredient.items * ingredient.price);
         });
 
         return total;

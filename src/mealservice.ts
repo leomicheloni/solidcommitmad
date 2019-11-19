@@ -7,6 +7,7 @@ export class MealService {
   private _recipe: Recipe;
   private _dataRetriever: RecipeDataRetriever;
 
+  // Dependency inversion principle
   constructor(recipeDataRetriever: RecipeDataRetriever) {
     this._dataRetriever = recipeDataRetriever;
   }
@@ -14,11 +15,12 @@ export class MealService {
   loadRecipe(): void {
     const recipeData = this._dataRetriever.retrieve().recipe;
 
-    if(this._dataRetriever instanceof RemoteRecipeDataRetriever){
-      this._dataRetriever.retrieve().then((data)=>{
+    // Liskov sustitution principle broken
+    if (this._dataRetriever instanceof RemoteRecipeDataRetriever) {
+      this._dataRetriever.retrieve().then((data) => {
         this.mapData(data);
       });
-    }else{
+    } else {
       this.mapData(recipeData);
     }
   }

@@ -17,7 +17,8 @@
     "jasmine-ts": "^0.3.0"
   },
   "scripts": {
-    "test": "jasmine-ts --project ./spec/tsconfig.json --config=./spec/jasmine.json"
+    "test": "jasmine-ts --project ./spec/tsconfig.json --config=./spec/jasmine.json",
+    "build": "tsc -p tsconfig.json"
   },
   "author": "",
   "license": ""

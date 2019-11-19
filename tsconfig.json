@@ -1,13 +1,18 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "outDir": "output",
-        "removeComments": false,
+        "module": "amd",
+        "target": "es2016",
+        // "noImplicitAny": true,
+        "outDir": "built",
+        "rootDir": "./src",
+        // "strict": true,
+        "outFile": "./bundle.js",
         "watch": true,
-        "module": "commonjs"
+        "sourceMap": true
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "spec"
     ],
     "include": ["**/*.ts"]    
 }
