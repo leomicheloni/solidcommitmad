@@ -57,6 +57,10 @@ const data = {
 };
 
 export class StaticRecipeDataRetriever extends RecipeDataRetriever {
+
+    connect(): boolean {
+        throw new Error("Method not implemented.");
+    }
     constructor() {
         super();
     }
