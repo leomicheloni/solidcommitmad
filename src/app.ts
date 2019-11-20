@@ -1,8 +1,8 @@
 import { MealService } from "./mealservice";
 import { Invoice } from "./invoice";
-import { Header } from "./header";
 import { RecipeDataRetriever } from "./recipeDataRetriever";
 import { StaticRecipeDataRetriever } from "./staticRecipeDataRetriever";
+import { Ingredient } from "./ingredient";
 
 export class App {
 
@@ -21,16 +21,13 @@ export class App {
     $selectAll = document.querySelector(".header__select--link");
     $deselectAll = document.querySelector(".header__deselect--link");
 
-    private count?: number;
-    private header: Header;
     private invoice: Invoice;
     private mealService: MealService;
 
     constructor() {
-        this.header = new Header();
-        this.invoice = new Invoice();
         const recipeDataRetriever: RecipeDataRetriever = new StaticRecipeDataRetriever();
         this.mealService = new MealService(recipeDataRetriever);
+        this.invoice = new Invoice(this.mealService.recipe, 7);
     }
 
     start() {
@@ -44,50 +41,42 @@ export class App {
             (<HTMLInputElement>$newRow.querySelector("input[type=checkbox]")).checked = false;
             (<HTMLInputElement>$newRow.querySelector("input[type=number]")).value = ingredient.items.toString();
             (<HTMLElement>$newRow.querySelector(".main__articule--description--price")).innerHTML = ingredient.price.toString();
+            (<HTMLElement>$newRow.querySelector(".main__article--id")).innerHTML = ingredient.id.toString();
 
             $table.appendChild($newRow);
         });
 
-        // this.$subtotal.innerHTML = "0";
-        // this.$total.innerHTML = "0";
-        // this.$shippingCosts.innerHTML = "0";
-        // this.$totalItems.innerHTML = "0";
-        // this.$totalBtn.innerHTML = "0";
-
         this.updateValues();
         this.bindEvents();
-
     }
 
     updateValues() {
-        let subTotal = 0;
         document.querySelectorAll(".my_row").forEach((row) => {
-          const $checked = (<HTMLInputElement> row.querySelector("input[type=checkbox]"));
-          const $quantity = (<HTMLInputElement> row.querySelector(".items__input"));
-          const $price = row.querySelector(".main__articule--description--price");
-      
-          if (parseInt($quantity.value) > 0) {
-            if ($checked.checked) {
-              let price = parseFloat($price.innerHTML);
-              let quantity = parseInt($quantity.value);
-              let rowValue = price * quantity;
-              subTotal += rowValue;
+            const $checked = (<HTMLInputElement>row.querySelector("input[type=checkbox]"));
+            const $quantity = (<HTMLInputElement>row.querySelector(".items__input"));
+            const $price = row.querySelector(".main__articule--description--price");
+            const $ingredientId = row.querySelector(".main__article--id");
+
+            let price = parseFloat($price.innerHTML);
+            let quantity = parseInt($quantity.value);
+            let selected = $checked.checked;
+
+
+            const currentItem: Ingredient = this.mealService.recipe.ingredients.find((ingredient: Ingredient) => {
+                return ingredient.id === parseInt($ingredientId.innerHTML);
+            });
+
+            if (currentItem !== undefined) {
+                currentItem.items = parseInt($quantity.value);
+                currentItem.selected = selected;
+                currentItem.price = price;
+                currentItem.quantity = quantity.toString();
             }
-          }
         })
-      
-        const shippingCost = parseFloat(this.$shippingCosts.innerHTML);
-        const total = (shippingCost + subTotal).toFixed(2);
-      
-        this.$subtotal.innerHTML = subTotal.toFixed(2);
-      
-        if(subTotal > 0){
-          this.$totalBtn.innerHTML = subTotal.toFixed(2);
-          this.$total.innerHTML = total;
-        }else{
-          this.$totalBtn.innerHTML = "0";
-          this.$total.innerHTML = "0";
-        }
+
+        this.$subtotal.innerHTML = this.invoice.subTotal.toFixed(2);
+        this.$shippingCosts.innerHTML = this.invoice.total.toFixed(2);
+        this.$totalBtn.innerHTML = this.invoice.total.toFixed(2)
     }
 
     bindEvents() {

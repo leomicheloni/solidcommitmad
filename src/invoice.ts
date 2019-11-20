@@ -2,15 +2,19 @@ import { Recipe } from "./recipe";
 
 export class Invoice {
     private _recipe = new Recipe();
+    private _shippingCost: number;
 
-    set recipe(recipe : Recipe){
+    constructor(recipe : Recipe, shippingCost: number) {
         this._recipe = recipe;
+        this._shippingCost = shippingCost;        
     }
 
-    total(): number {
-        return this._recipe.totalPrice + this.shipping;
+    get subTotal(): number{
+        return this._recipe.totalPrice;
     }
 
-
-    shipping: number;
+    get total(): number {
+        if(this._recipe.ingredients.filter((i)=>i.selected).length === 0) return 0;
+        return this._recipe.totalPrice + this._shippingCost;
+    }
 }

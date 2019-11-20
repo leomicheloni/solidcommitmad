@@ -30,8 +30,10 @@ export class MealService {
     this._recipe.currency = recipeData.currency;
     this._recipe.name = recipeData.name;
     this._recipe.ingredients = new Array<Ingredient>();
-    recipeData.ingredients.forEach(function (i) {
+    
+    recipeData.ingredients.forEach(function (i, index) {
       var ingredient = new Ingredient();
+      ingredient.id = index;
       ingredient.brand = i.brand;
       ingredient.items = i.items;
       ingredient.price = i.price;
