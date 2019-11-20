@@ -27,7 +27,6 @@ export class App {
     constructor() {
         const recipeDataRetriever: RecipeDataRetriever = new StaticRecipeDataRetriever();
         this.mealService = new MealService(recipeDataRetriever);
-        this.invoice = new Invoice(this.mealService.recipe, 7);
     }
 
     start() {
@@ -45,6 +44,8 @@ export class App {
 
             $table.appendChild($newRow);
         });
+
+        this.invoice = new Invoice(this.mealService.recipe, 7);
 
         this.updateValues();
         this.bindEvents();

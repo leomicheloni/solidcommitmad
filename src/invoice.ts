@@ -1,7 +1,7 @@
 import { Recipe } from "./recipe";
 
 export class Invoice {
-    private _recipe = new Recipe();
+    private _recipe : Recipe;
     private _shippingCost: number;
 
     constructor(recipe : Recipe, shippingCost: number) {
