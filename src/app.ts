@@ -3,7 +3,10 @@ import { Invoice } from "./invoice";
 import { RecipeDataRetriever } from "./recipeDataRetriever";
 import { StaticRecipeDataRetriever } from "./staticRecipeDataRetriever";
 import { Ingredient } from "./ingredient";
+import { RemoteRecipeDataRetriever } from "./remoteRecipeDataRetriever";
 
+// The app class represents this application, and it in charge of sending information to the current invoice 
+// and showing the current results
 export class App {
 
     $title = document.querySelector(".header__title");
@@ -18,9 +21,22 @@ export class App {
     private invoice: Invoice;
     private mealService: MealService;
 
-    constructor() {
+    private constructor() {
         const recipeDataRetriever: RecipeDataRetriever = new StaticRecipeDataRetriever();
         this.mealService = new MealService(recipeDataRetriever);
+    }
+
+    static Build(mealService: MealService): App {
+        let app = new App();
+        app.mealService = mealService;
+        return app;
+    }
+
+    static BuildStatic(): App {
+        let app = new App();
+        const recipeDataRetriever: RecipeDataRetriever = new StaticRecipeDataRetriever();
+        app.mealService = new MealService(recipeDataRetriever);
+        return app;
     }
 
     start() {
@@ -78,7 +94,7 @@ export class App {
         this.$shippingCosts.innerHTML = `${this.invoice.total.toFixed(2)} ${this.mealService.recipe.currency}`;
         this.$total.innerHTML = `${this.invoice.total.toFixed(2)} ${this.mealService.recipe.currency}`;
         this.$totalBtn.innerHTML = `${this.invoice.total.toFixed(2)} ${this.mealService.recipe.currency}`;
-        this.$totalItems.innerHTML = `${this.invoice.totalItems.toFixed(2)} ${this.mealService.recipe.currency}`;
+        this.$totalItems.innerHTML = this.invoice.totalItems.toString();
         this.$title.innerHTML = this.mealService.recipe.name;
     }
 

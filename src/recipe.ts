@@ -33,6 +33,7 @@ export class Recipe {
         this._ingredients.push(ingredient);
     }
 
+    // The recipe knows the current total based on selected ingredients partial prices x the number of items
     get totalPrice(): number {
         if (this._ingredients === undefined) return 0;
         let total: number = 0;

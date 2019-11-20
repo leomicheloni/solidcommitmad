@@ -1,4 +1,4 @@
 import { App } from "./app";
 
-var app = new App();
+var app = App.BuildStatic();
 app.start();
