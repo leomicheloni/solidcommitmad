@@ -6,7 +6,7 @@ export class Ingredient {
     quantity: string;
     price: number;
     selected: boolean;
-        
+
     total(): number {
         return this.items * this.price;
     }

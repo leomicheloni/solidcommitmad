@@ -77,7 +77,8 @@ export class App {
 
         this.$subtotal.innerHTML = this.invoice.subTotal.toFixed(2);
         this.$shippingCosts.innerHTML = this.invoice.total.toFixed(2);
-        this.$totalBtn.innerHTML = this.invoice.total.toFixed(2)
+        this.$totalBtn.innerHTML = this.invoice.total.toFixed(2);
+        this.$totalItems.innerHTML = this.invoice.totalItems.toFixed(2);
     }
 
     bindEvents() {
