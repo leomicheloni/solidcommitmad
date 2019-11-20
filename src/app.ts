@@ -3,15 +3,12 @@ import { Invoice } from "./invoice";
 import { RecipeDataRetriever } from "./recipeDataRetriever";
 import { StaticRecipeDataRetriever } from "./staticRecipeDataRetriever";
 import { Ingredient } from "./ingredient";
+import { stringify } from "querystring";
 
 export class App {
 
     $title = document.querySelector(".header__title");
-    $articles = document.querySelectorAll(".main__article--description--title");
     $currency = document.getElementsByTagName("span");
-    $brands = document.querySelectorAll(".main__article--description--brand");
-    $quantities = document.querySelectorAll(".main__article--description--weight");
-    $prices = document.querySelectorAll(".main__articule--description--price");
     $itemsInput = document.querySelectorAll(".items__input");
     $subtotal = document.querySelector(".footer__subtotal--number");
     $total = document.querySelector(".footer__total--number");
@@ -41,6 +38,11 @@ export class App {
             (<HTMLInputElement>$newRow.querySelector("input[type=number]")).value = ingredient.items.toString();
             (<HTMLElement>$newRow.querySelector(".main__articule--description--price")).innerHTML = ingredient.price.toString();
             (<HTMLElement>$newRow.querySelector(".main__article--id")).innerHTML = ingredient.id.toString();
+
+            let elementDescription = (<HTMLElement>$newRow.querySelector(".main__article--first--description"));
+            elementDescription.querySelector(".main__article--description--title").innerHTML = ingredient.product;
+            elementDescription.querySelector(".main__article--description--brand").innerHTML = ingredient.brand || "";
+            elementDescription.querySelector(".main__article--description--weight").innerHTML = ingredient.quantity;
 
             $table.appendChild($newRow);
         });
