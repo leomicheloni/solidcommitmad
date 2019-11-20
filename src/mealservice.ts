@@ -3,6 +3,7 @@ import { Ingredient } from "./ingredient";
 import { RecipeDataRetriever } from "./recipeDataRetriever";
 import { RemoteRecipeDataRetriever } from "./remoteRecipeDataRetriever";
 
+
 export class MealService {
   private _recipe: Recipe;
   private _dataRetriever: RecipeDataRetriever;
@@ -12,17 +13,24 @@ export class MealService {
     this._dataRetriever = recipeDataRetriever;
   }
 
-  loadRecipe(): void {
-    const recipeData = this._dataRetriever.retrieve().recipe;
+  loadRecipe(): Promise<void> {
 
-    // Liskov sustitution principle broken
-    if (this._dataRetriever instanceof RemoteRecipeDataRetriever) {
-      this._dataRetriever.retrieve().then((data) => {
-        this.mapData(data);
-      });
-    } else {
-      this.mapData(recipeData);
-    }
+    const promise = new Promise<void>((resolve) => {
+      // Liskov sustitution principle broken
+      if (this._dataRetriever instanceof RemoteRecipeDataRetriever) {
+        this._dataRetriever.retrieve().then((data) => {
+          this.mapData(data);
+          resolve();
+        });
+      } else {
+        const recipeData = this._dataRetriever.retrieve().recipe;
+        this.mapData(recipeData);
+        resolve();
+      }
+
+    });
+
+    return promise;
   }
 
   private mapData(recipeData: any) {

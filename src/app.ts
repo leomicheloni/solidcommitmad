@@ -40,31 +40,31 @@ export class App {
     }
 
     start() {
-        this.mealService.loadRecipe(); // make this a promise
-
-        const $rowTemplate = document.querySelector("#row_template tr");
-        const $table = document.querySelector("#tableBody");
-        this.mealService.recipe.ingredients.forEach((ingredient) => {
-            const $newRow = (<HTMLElement>$rowTemplate.cloneNode(true));
-            $newRow.classList.add("my_row");
-            (<HTMLInputElement>$newRow.querySelector("input[type=checkbox]")).checked = false;
-            (<HTMLInputElement>$newRow.querySelector("input[type=number]")).value = ingredient.items.toString();
-            (<HTMLElement>$newRow.querySelector(".main__articule--description--price")).innerHTML = ingredient.price.toString();
-            (<HTMLElement>$newRow.querySelector(".main__article--currency")).innerHTML = this.mealService.recipe.currency;
-            (<HTMLElement>$newRow.querySelector(".main__article--id")).innerHTML = ingredient.id.toString();
-
-            let elementDescription = (<HTMLElement>$newRow.querySelector(".main__article--first--description"));
-            elementDescription.querySelector(".main__article--description--title").innerHTML = ingredient.product;
-            elementDescription.querySelector(".main__article--description--brand").innerHTML = ingredient.brand || "";
-            elementDescription.querySelector(".main__article--description--weight").innerHTML = ingredient.quantity;
-
-            $table.appendChild($newRow);
+        this.mealService.loadRecipe().then(()=>{
+            const $rowTemplate = document.querySelector("#row_template tr");
+            const $table = document.querySelector("#tableBody");
+            this.mealService.recipe.ingredients.forEach((ingredient) => {
+                const $newRow = (<HTMLElement>$rowTemplate.cloneNode(true));
+                $newRow.classList.add("my_row");
+                (<HTMLInputElement>$newRow.querySelector("input[type=checkbox]")).checked = false;
+                (<HTMLInputElement>$newRow.querySelector("input[type=number]")).value = ingredient.items.toString();
+                (<HTMLElement>$newRow.querySelector(".main__articule--description--price")).innerHTML = ingredient.price.toString();
+                (<HTMLElement>$newRow.querySelector(".main__article--currency")).innerHTML = this.mealService.recipe.currency;
+                (<HTMLElement>$newRow.querySelector(".main__article--id")).innerHTML = ingredient.id.toString();
+    
+                let elementDescription = (<HTMLElement>$newRow.querySelector(".main__article--first--description"));
+                elementDescription.querySelector(".main__article--description--title").innerHTML = ingredient.product;
+                elementDescription.querySelector(".main__article--description--brand").innerHTML = ingredient.brand || "";
+                elementDescription.querySelector(".main__article--description--weight").innerHTML = ingredient.quantity;
+    
+                $table.appendChild($newRow);
+            });
+    
+            this.invoice = new Invoice(this.mealService.recipe, 7);
+    
+            this.updateValues();
+            this.bindEvents();    
         });
-
-        this.invoice = new Invoice(this.mealService.recipe, 7);
-
-        this.updateValues();
-        this.bindEvents();
     }
 
     updateValues() {
