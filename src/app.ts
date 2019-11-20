@@ -3,13 +3,10 @@ import { Invoice } from "./invoice";
 import { RecipeDataRetriever } from "./recipeDataRetriever";
 import { StaticRecipeDataRetriever } from "./staticRecipeDataRetriever";
 import { Ingredient } from "./ingredient";
-import { stringify } from "querystring";
 
 export class App {
 
     $title = document.querySelector(".header__title");
-    $currency = document.getElementsByTagName("span");
-    $itemsInput = document.querySelectorAll(".items__input");
     $subtotal = document.querySelector(".footer__subtotal--number");
     $total = document.querySelector(".footer__total--number");
     $shippingCosts = document.querySelector(".footer__shippingcosts--number");
@@ -37,6 +34,7 @@ export class App {
             (<HTMLInputElement>$newRow.querySelector("input[type=checkbox]")).checked = false;
             (<HTMLInputElement>$newRow.querySelector("input[type=number]")).value = ingredient.items.toString();
             (<HTMLElement>$newRow.querySelector(".main__articule--description--price")).innerHTML = ingredient.price.toString();
+            (<HTMLElement>$newRow.querySelector(".main__article--currency")).innerHTML = this.mealService.recipe.currency;
             (<HTMLElement>$newRow.querySelector(".main__article--id")).innerHTML = ingredient.id.toString();
 
             let elementDescription = (<HTMLElement>$newRow.querySelector(".main__article--first--description"));
@@ -64,7 +62,6 @@ export class App {
             let quantity = parseInt($quantity.value);
             let selected = $checked.checked;
 
-
             const currentItem: Ingredient = this.mealService.recipe.ingredients.find((ingredient: Ingredient) => {
                 return ingredient.id === parseInt($ingredientId.innerHTML);
             });
@@ -77,10 +74,11 @@ export class App {
             }
         })
 
-        this.$subtotal.innerHTML = this.invoice.subTotal.toFixed(2);
-        this.$shippingCosts.innerHTML = this.invoice.total.toFixed(2);
-        this.$totalBtn.innerHTML = this.invoice.total.toFixed(2);
-        this.$totalItems.innerHTML = this.invoice.totalItems.toFixed(2);
+        this.$subtotal.innerHTML = `${this.invoice.subTotal.toFixed(2)} ${this.mealService.recipe.currency}`;
+        this.$shippingCosts.innerHTML = `${this.invoice.total.toFixed(2)} ${this.mealService.recipe.currency}`;
+        this.$total.innerHTML = `${this.invoice.total.toFixed(2)} ${this.mealService.recipe.currency}`;
+        this.$totalBtn.innerHTML = `${this.invoice.total.toFixed(2)} ${this.mealService.recipe.currency}`;
+        this.$totalItems.innerHTML = `${this.invoice.totalItems.toFixed(2)} ${this.mealService.recipe.currency}`;
         this.$title.innerHTML = this.mealService.recipe.name;
     }
 
