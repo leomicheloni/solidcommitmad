@@ -3,7 +3,6 @@ import { Invoice } from "./invoice";
 import { RecipeDataRetriever } from "./recipeDataRetriever";
 import { StaticRecipeDataRetriever } from "./staticRecipeDataRetriever";
 import { Ingredient } from "./ingredient";
-import { RemoteRecipeDataRetriever } from "./remoteRecipeDataRetriever";
 
 // The app class represents this application, and it in charge of sending information to the current invoice 
 // and showing the current results
@@ -128,6 +127,5 @@ export class App {
             selectAll();
             this.updateValues();
         });
-
     }
 }

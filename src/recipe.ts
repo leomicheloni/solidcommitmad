@@ -43,5 +43,4 @@ export class Recipe {
 
         return total;
     }
-
 }
