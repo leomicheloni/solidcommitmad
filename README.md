@@ -2,6 +2,8 @@
 
 Este repositorio es una aplicación simple desarrollada con Typescript ejemplificando el uso de principios SOLID.
 
+Slides de la charla: https://www.slideshare.net/leomicheloni/2019-commit-solid-typescript
+
 Los principios SOLID son un conjunto de técnicas que persiguen construir que sea:
 
  - Flexible.
